@@ -12,7 +12,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  # ── Build binaries for each platform ──────────────────────────────────────
   build:
     strategy:
       matrix:
@@ -68,7 +67,6 @@ jobs:
           name: ${{ matrix.target }}
           path: dist/omp-manager-*
 
-  # ── Create GitHub Release ─────────────────────────────────────────────────
   github-release:
     needs: build
     runs-on: ubuntu-latest
@@ -95,7 +93,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # ── Publish to crates.io ──────────────────────────────────────────────────
   crates-io:
     needs: build
     runs-on: ubuntu-latest
@@ -109,7 +106,6 @@ jobs:
       - name: Publish to crates.io
         run: cargo publish --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
-  # ── Publish to Chocolatey ─────────────────────────────────────────────────
   chocolatey:
     needs: github-release
     runs-on: windows-latest
@@ -144,10 +140,8 @@ jobs:
           $sha256 = "${{ steps.checksum.outputs.SHA256 }}"
           $url = "https://github.com/marlocarlo/omp-manager/releases/download/${{ github.ref_name }}/omp-manager-x86_64-pc-windows-msvc.zip"
 
-          # Create package structure
           New-Item -ItemType Directory -Force -Path choco/tools
 
-          # nuspec
           @"
           <?xml version="1.0" encoding="utf-8"?>
           <package xmlns="http://schemas.chocolatey.org/packaging/2015/06/nuspec.xsd">
@@ -160,13 +154,12 @@ jobs:
               <projectUrl>https://github.com/marlocarlo/omp-manager</projectUrl>
               <licenseUrl>https://github.com/marlocarlo/omp-manager/blob/master/LICENSE</licenseUrl>
               <requireLicenseAcceptance>false</requireLicenseAcceptance>
-              <description>A TUI manager for Oh My Posh — browse themes, install fonts, and configure shells with zero effort.</description>
+              <description>A TUI manager for Oh My Posh - browse themes, install fonts, and configure shells with zero effort.</description>
               <tags>oh-my-posh prompt theme tui terminal</tags>
             </metadata>
           </package>
           "@ | Out-File -Encoding utf8 choco/omp-manager.nuspec
 
-          # Install script
           @"
           `$ErrorActionPreference = 'Stop'
           `$toolsDir = Split-Path -Parent `$MyInvocation.MyCommand.Definition
@@ -180,7 +173,6 @@ jobs:
             -ChecksumType64 'sha256'
           "@ | Out-File -Encoding utf8 choco/tools/chocolateyinstall.ps1
 
-          # Pack
           choco pack choco/omp-manager.nuspec --output-directory choco
 
       - name: Push to Chocolatey
@@ -188,7 +180,6 @@ jobs:
         run: |
           choco push choco/omp-manager.${{ steps.version.outputs.VERSION }}.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCOLATEY_API_KEY }}
 
-  # ── Submit to winget ──────────────────────────────────────────────────────
   winget:
     needs: github-release
     runs-on: windows-latest

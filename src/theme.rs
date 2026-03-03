@@ -5,7 +5,7 @@
 
 use ratatui::style::Color;
 
-/// Deep navy — classic PowerShell console background.
+/// Deep navy - classic PowerShell console background.
 pub const BG: Color = Color::Rgb(1, 36, 86);
 /// Slightly lighter blue for panels, cards, input fields.
 pub const BG_PANEL: Color = Color::Rgb(6, 46, 100);
@@ -14,12 +14,12 @@ pub const BG_HIGHLIGHT: Color = Color::Rgb(14, 69, 131);
 /// Even brighter hover-like accent.
 pub const BG_ACTIVE: Color = Color::Rgb(24, 89, 161);
 
-/// PowerShell gold — primary accent for headers, active tab, badges.
+/// PowerShell gold - primary accent for headers, active tab, badges.
 pub const ACCENT: Color = Color::Rgb(255, 185, 0);
-/// Bright cyan — secondary accent for links, info, buttons.
+/// Bright cyan - secondary accent for links, info, buttons.
 pub const ACCENT2: Color = Color::Rgb(59, 186, 243);
 
-/// Main body text — near-white.
+/// Main body text - near-white.
 pub const TEXT: Color = Color::Rgb(229, 229, 229);
 /// Muted text for descriptions, secondary info.
 pub const TEXT_DIM: Color = Color::Rgb(128, 148, 174);

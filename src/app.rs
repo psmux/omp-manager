@@ -130,7 +130,7 @@ pub struct ConfirmDialog {
     pub message: String,
     pub action: ConfirmAction,
     pub confirm_selected: bool,
-    /// Extra context — e.g. theme name, font name, shell index.
+    /// Extra context - e.g. theme name, font name, shell index.
     pub context: String,
 }
 
@@ -339,7 +339,7 @@ impl App {
                 }
             }
 
-            // No local file — spawn background download (non-blocking)
+            // No local file - spawn background download (non-blocking)
             if self.theme_downloading.contains(&idx) {
                 return; // already downloading
             }
@@ -384,7 +384,7 @@ impl App {
         self.tab = Tab::ALL[prev];
     }
 
-    /// Generic scroll helper — clamp within `0..len`.
+    /// Generic scroll helper - clamp within `0..len`.
     pub fn clamp_selection(sel: &mut usize, scroll: &mut usize, len: usize, visible: usize) {
         if len == 0 { *sel = 0; *scroll = 0; return; }
         if *sel >= len { *sel = len - 1; }

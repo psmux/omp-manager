@@ -1,7 +1,7 @@
 // ─── OS / Binary / Font Detection ────────────────────────────────────────────
 //
 // Probes the current system for Oh My Posh, Nerd Fonts, and basic platform
-// metadata.  Everything is synchronous (`Command::new`) — no network.
+// metadata.  Everything is synchronous (`Command::new`) - no network.
 
 use std::path::PathBuf;
 use std::process::Command;

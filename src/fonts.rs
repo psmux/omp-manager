@@ -22,7 +22,7 @@ pub struct NerdFont {
 // ── Curated font list ────────────────────────────────────────────────────────
 
 pub static FONT_CATALOG: &[NerdFont] = &[
-    NerdFont { name: "Meslo",          display: "MesloLGS Nerd Font",        description: "Recommended by Oh My Posh — clean and reliable",  recommended: true  },
+    NerdFont { name: "Meslo",          display: "MesloLGS Nerd Font",        description: "Recommended by Oh My Posh - clean and reliable",  recommended: true  },
     NerdFont { name: "FiraCode",       display: "FiraCode Nerd Font",        description: "Popular ligature-rich coding font",                recommended: true  },
     NerdFont { name: "CascadiaCode",   display: "Cascadia Code Nerd Font",   description: "Microsoft's default Windows Terminal font",        recommended: true  },
     NerdFont { name: "JetBrainsMono",  display: "JetBrains Mono Nerd Font",  description: "JetBrains' developer-friendly monospace",          recommended: false },

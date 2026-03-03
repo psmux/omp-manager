@@ -20,8 +20,8 @@ use std::time::Duration;
 
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEventKind, KeyModifiers, MouseButton, MouseEventKind},
-    execute,
-    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+    execute, queue,
+    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen, BeginSynchronizedUpdate, EndSynchronizedUpdate},
 };
 use ratatui::{backend::CrosstermBackend, Terminal};
 
@@ -67,7 +67,11 @@ fn run_app(
     loop {
         // Draw only when state has changed (prevents flickering from constant redraws)
         if needs_redraw {
+            // Synchronized update: terminal buffers all changes and applies them
+            // atomically, eliminating visible tearing / flicker.
+            queue!(terminal.backend_mut(), BeginSynchronizedUpdate)?;
             terminal.draw(|f| ui::draw(f, app))?;
+            execute!(terminal.backend_mut(), EndSynchronizedUpdate)?;
             needs_redraw = false;
         }
 
@@ -607,7 +611,7 @@ fn handle_mouse(app: &mut App, kind: MouseEventKind, x: u16, y: u16) {
                         }
                     }
                     // Find the rightmost tab whose start position is <= x
-                    // (only within the rendered tab region — ignore clicks past all labels)
+                    // (only within the rendered tab region - ignore clicks past all labels)
                     if x < cursor {
                         let mut tab_idx = 0;
                         for (i, &s) in tab_starts.iter().enumerate() {
@@ -896,9 +900,9 @@ fn apply_theme(app: &mut App, theme_name: &str) {
         }
         app.active_theme_name = Some(theme_name.to_string());
         if success_count > 0 {
-            app.set_status(&format!("Theme '{theme_name}' applied to {success_count} shell(s) — restart shells to see changes"));
+            app.set_status(&format!("Theme '{theme_name}' applied to {success_count} shell(s) - restart shells to see changes"));
         } else {
-            app.set_status(&format!("Theme '{theme_name}' selected — configure shells in Setup tab to activate"));
+            app.set_status(&format!("Theme '{theme_name}' selected - configure shells in Setup tab to activate"));
         }
         // Mark setup step
         if let Some(step) = app.setup_steps.get_mut(2) {
@@ -907,12 +911,12 @@ fn apply_theme(app: &mut App, theme_name: &str) {
         // Refresh shells
         app.shells = shell::detect_all_shells();
     } else {
-        app.set_status_err(&format!("Could not find or download theme '{theme_name}' — check your internet connection"));
+        app.set_status_err(&format!("Could not find or download theme '{theme_name}' - check your internet connection"));
     }
 }
 
 fn configure_all_shells(app: &mut App) {
-    // Find the theme file path — check OMP themes dir and our cache
+    // Find the theme file path - check OMP themes dir and our cache
     let theme_path = app.active_theme_name.as_ref().and_then(|name| {
         let themes_dir = app.omp.as_ref().and_then(|o| o.themes_path.as_deref());
         // Check if theme entry has a cached path
@@ -935,7 +939,7 @@ fn configure_all_shells(app: &mut App) {
     }
     if configured > 0 {
         app.set_status(&format!(
-            "✓ Setup complete! Configured {configured} shell(s) — restart them to see your new prompt"
+            "✓ Setup complete! Configured {configured} shell(s) - restart them to see your new prompt"
         ));
         if let Some(step) = app.setup_steps.get_mut(3) {
             step.status = install::StepStatus::Done;
@@ -972,9 +976,9 @@ fn reset_to_default(app: &mut App) {
 
     if removed > 0 {
         app.set_status(&format!(
-            "Reset complete — removed Oh My Posh from {removed} shell(s). Restart your shells to see the default prompt."
+            "Reset complete - removed Oh My Posh from {removed} shell(s). Restart your shells to see the default prompt."
         ));
     } else {
-        app.set_status("No configured shells found — already at default");
+        app.set_status("No configured shells found - already at default");
     }
 }

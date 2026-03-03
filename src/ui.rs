@@ -182,7 +182,7 @@ fn draw_dashboard(f: &mut Frame, area: Rect, app: &mut App) {
         Line::from(vec![
             Span::styled("  Welcome to ", Style::default().fg(TEXT)),
             Span::styled("Oh My Posh Manager", Style::default().fg(ACCENT).add_modifier(Modifier::BOLD)),
-            Span::styled(" — your prompt customization tool", Style::default().fg(TEXT)),
+            Span::styled(" - your prompt customization tool", Style::default().fg(TEXT)),
         ]),
         Line::from(Span::styled(
             "  Install Oh My Posh, pick themes, configure fonts, and set up all your shells.",
@@ -256,7 +256,7 @@ fn draw_dashboard(f: &mut Frame, area: Rect, app: &mut App) {
     } else {
         info_lines.push(Line::from(vec![
             Span::styled("  Oh My Posh: ", Style::default().fg(TEXT_DIM)),
-            Span::styled("Not installed — use Quick Setup", Style::default().fg(YELLOW)),
+            Span::styled("Not installed - use Quick Setup", Style::default().fg(YELLOW)),
         ]));
     }
 
@@ -270,7 +270,7 @@ fn draw_dashboard(f: &mut Frame, area: Rect, app: &mut App) {
     } else {
         info_lines.push(Line::from(vec![
             Span::styled("  Nerd Font: ", Style::default().fg(TEXT_DIM)),
-            Span::styled("Not detected — install one in Setup", Style::default().fg(YELLOW)),
+            Span::styled("Not detected - install one in Setup", Style::default().fg(YELLOW)),
         ]));
     }
 
@@ -442,7 +442,7 @@ fn draw_setup_detail(f: &mut Frame, area: Rect, app: &App) {
                 if let Some(ref omp) = app.omp {
                     lines.push(Line::from(vec![
                         Span::styled(" ✓ ", Style::default().fg(GREEN)),
-                        Span::styled(format!("Installed — v{}", omp.version), Style::default().fg(TEXT)),
+                        Span::styled(format!("Installed - v{}", omp.version), Style::default().fg(TEXT)),
                     ]));
                     lines.push(Line::from(""));
                     lines.push(Line::from(Span::styled(
@@ -500,7 +500,7 @@ fn draw_setup_detail(f: &mut Frame, area: Rect, app: &App) {
         }
         2 => {
             lines.push(Line::from(Span::styled(
-                "Quick picks — or go to the Themes tab for the full list:",
+                "Quick picks - or go to the Themes tab for the full list:",
                 Style::default().fg(ACCENT2),
             )));
             lines.push(Line::from(""));
@@ -755,7 +755,7 @@ fn draw_theme_detail(f: &mut Frame, area: Rect, app: &App) {
         }
         f.render_widget(Paragraph::new(preview_lines).wrap(Wrap { trim: false }).style(Style::default().bg(BG_PANEL)), layout[3]);
     } else {
-        // Config not loaded yet — either loading from disk or downloading
+        // Config not loaded yet - either loading from disk or downloading
         f.render_widget(
             Paragraph::new(vec![
                 Line::from(""),

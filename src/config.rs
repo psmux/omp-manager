@@ -15,7 +15,7 @@ pub struct OmpConfig {
     #[serde(rename = "$schema", skip_serializing_if = "Option::is_none")]
     pub schema: Option<String>,
 
-    /// Final result indicator — the very last character of the prompt.
+    /// Final result indicator - the very last character of the prompt.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub final_space: Option<bool>,
 
@@ -23,7 +23,7 @@ pub struct OmpConfig {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub console_title_template: Option<String>,
 
-    /// Prompt blocks — the core of every theme.
+    /// Prompt blocks - the core of every theme.
     #[serde(default)]
     pub blocks: Vec<Block>,
 
@@ -39,7 +39,7 @@ pub struct OmpConfig {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub tooltips: Vec<Segment>,
 
-    /// Global palette — named color aliases.
+    /// Global palette - named color aliases.
     #[serde(default, skip_serializing_if = "HashMap::is_empty")]
     pub palette: HashMap<String, String>,
 

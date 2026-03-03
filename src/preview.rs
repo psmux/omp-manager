@@ -24,7 +24,7 @@ pub fn render_preview<'a>(config: &OmpConfig, panel_bg: Color) -> Vec<Line<'a>> 
 
     if config.blocks.is_empty() {
         lines.push(Line::from(Span::styled(
-            "  (empty config — no blocks)",
+            "  (empty config - no blocks)",
             Style::default().fg(Color::DarkGray),
         )));
         return lines;
@@ -37,7 +37,7 @@ pub fn render_preview<'a>(config: &OmpConfig, panel_bg: Color) -> Vec<Line<'a>> 
         }
 
         let mut spans: Vec<Span<'a>> = Vec::new();
-        let mut prev_bg = Color::Reset;
+        let mut prev_bg = panel_bg;
 
         for (si, seg) in block.segments.iter().enumerate() {
             let bg = parse_color(seg.background.as_deref()).unwrap_or(PALETTE[si % PALETTE.len()]);
@@ -51,7 +51,7 @@ pub fn render_preview<'a>(config: &OmpConfig, panel_bg: Color) -> Vec<Line<'a>> 
                 ));
             }
 
-            // Segment content — use example text from catalog or segment type name
+            // Segment content - use example text from catalog or segment type name
             let label = lookup_segment(&seg.seg_type)
                 .map(|info| format!(" {} {} ", info.icon, info.example))
                 .unwrap_or_else(|| format!(" {} ", seg.seg_type));
@@ -111,7 +111,7 @@ pub fn render_preview<'a>(config: &OmpConfig, panel_bg: Color) -> Vec<Line<'a>> 
     lines
 }
 
-/// Preview when theme file isn't available — just show the name and info.
+/// Preview when theme file isn't available - just show the name and info.
 pub fn render_placeholder<'a>(name: &str, description: &str) -> Vec<Line<'a>> {
     vec![
         Line::from(""),

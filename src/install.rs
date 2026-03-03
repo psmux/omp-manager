@@ -128,7 +128,7 @@ pub fn update_omp() -> OpResult {
             .output();
         match result {
             Ok(o) if o.status.success() => OpResult { success: true, message: "Oh My Posh updated".into() },
-            _ => OpResult { success: false, message: "Update failed — try manually: winget upgrade JanDeDobbeleer.OhMyPosh".into() },
+            _ => OpResult { success: false, message: "Update failed - try manually: winget upgrade JanDeDobbeleer.OhMyPosh".into() },
         }
     }
     #[cfg(target_os = "macos")]
@@ -138,7 +138,7 @@ pub fn update_omp() -> OpResult {
             .output();
         match result {
             Ok(o) if o.status.success() => OpResult { success: true, message: "Oh My Posh updated".into() },
-            _ => OpResult { success: false, message: "Update failed — try: brew upgrade oh-my-posh".into() },
+            _ => OpResult { success: false, message: "Update failed - try: brew upgrade oh-my-posh".into() },
         }
     }
     #[cfg(target_os = "linux")]
@@ -148,7 +148,7 @@ pub fn update_omp() -> OpResult {
             .output();
         match result {
             Ok(o) if o.status.success() => OpResult { success: true, message: "Oh My Posh updated".into() },
-            _ => OpResult { success: false, message: "Update failed — try: curl -s https://ohmyposh.dev/install.sh | bash -s".into() },
+            _ => OpResult { success: false, message: "Update failed - try: curl -s https://ohmyposh.dev/install.sh | bash -s".into() },
         }
     }
 }
@@ -161,7 +161,7 @@ pub fn configure_shell(shell_info: &ShellInfo, theme_path: Option<&str>) -> OpRe
     match crate::shell::write_init_to_profile(shell_info.shell, path, theme_path) {
         Ok(()) => OpResult {
             success: true,
-            message: format!("{} configured — restart your shell to see the new prompt", shell_info.shell.label()),
+            message: format!("{} configured - restart your shell to see the new prompt", shell_info.shell.label()),
         },
         Err(e) => OpResult {
             success: false,
@@ -236,7 +236,7 @@ pub fn create_setup_steps(omp_installed: bool, has_font: bool) -> Vec<SetupStep>
         },
         SetupStep {
             label: "Install a Nerd Font".into(),
-            description: "Icons require a Nerd Font — we'll install one for you".into(),
+            description: "Icons require a Nerd Font - we'll install one for you".into(),
             status: if has_font { StepStatus::Done } else { StepStatus::Pending },
         },
         SetupStep {

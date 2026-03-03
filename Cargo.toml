@@ -2,7 +2,7 @@
 name = "omp-manager"
 version = "0.1.0"
 edition = "2021"
-description = "A TUI manager for Oh My Posh — browse themes, install fonts, and configure shells with zero effort"
+description = "A TUI manager for Oh My Posh - browse themes, install fonts, and configure shells with zero effort"
 license = "MIT"
 readme = "README.md"
 keywords = ["oh-my-posh", "prompt", "theme", "tui", "terminal"]
