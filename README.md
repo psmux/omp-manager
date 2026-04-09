@@ -21,7 +21,7 @@ cargo install omp-manager
 ### WinGet (Windows)
 
 ```sh
-winget install marlocarlo.omp-manager
+winget install marlocarlo.OmpManager
 ```
 
 ### Chocolatey (Windows)
