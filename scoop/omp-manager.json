@@ -6,13 +6,7 @@
     "notes": "For automatic updates, add the bucket: scoop bucket add omp-manager https://github.com/marlocarlo/scoop-omp-manager",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/marlocarlo/omp-manager/releases/download/v0.1.2/omp-manager-v0.1.2-windows-x64.zip"
-        },
-        "32bit": {
-            "url": "https://github.com/marlocarlo/omp-manager/releases/download/v0.1.2/omp-manager-v0.1.2-windows-x86.zip"
-        },
-        "arm64": {
-            "url": "https://github.com/marlocarlo/omp-manager/releases/download/v0.1.2/omp-manager-v0.1.2-windows-arm64.zip"
+            "url": "https://github.com/marlocarlo/omp-manager/releases/download/v0.1.2/omp-manager-x86_64-pc-windows-msvc.zip"
         }
     },
     "bin": ["omp-manager.exe"],

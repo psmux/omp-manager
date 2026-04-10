@@ -657,7 +657,7 @@ jobs:
           $tag    = "${{ steps.version.outputs.TAG }}"
           $repo   = "${{ github.repository }}"
           $base   = "https://github.com/$repo/releases/download/$tag"
-          $pkgId  = "marlocarlo.omp-manager"
+          $pkgId  = "marlocarlo.OmpManager"
           $outDir = "winget-manifests"
           New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 
@@ -755,7 +755,7 @@ jobs:
           $repo = "${{ github.repository }}"
           $base = "https://github.com/$repo/releases/download/$tag"
 
-          & $env:WGC_PATH update "marlocarlo.omp-manager" `
+          & $env:WGC_PATH update "marlocarlo.OmpManager" `
             --version $ver `
             --urls "$base/omp-manager-$tag-windows-x64.zip" `
                    "$base/omp-manager-$tag-windows-x86.zip" `
@@ -774,4 +774,4 @@ jobs:
             exit 1
           }
           Write-Output "PR submitted to microsoft/winget-pkgs!"
-          Write-Output "Track at: https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+marlocarlo.omp-manager"
+          Write-Output "Track at: https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+marlocarlo.OmpManager"
