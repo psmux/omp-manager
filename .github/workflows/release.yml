@@ -226,7 +226,7 @@ jobs:
 
             **Via WinGet (Windows):**
             ```powershell
-            winget install marlocarlo.omp-manager
+            winget install marlocarlo.OmpManager
             ```
 
             **Manual install:** Download the archive for your platform, extract, and put `omp-manager` in your PATH.
