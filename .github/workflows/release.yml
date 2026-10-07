@@ -414,7 +414,7 @@ jobs:
               <id>omp-manager</id>
               <version>$ver</version>
               <title>Oh My Posh Manager</title>
-              <authors>marlocarlo</authors>
+              <authors>Godwin Sam Josh</authors>
               <owners>marlocarlo</owners>
               <licenseUrl>https://github.com/$repo/blob/master/LICENSE</licenseUrl>
               <projectUrl>https://github.com/$repo</projectUrl>
@@ -716,7 +716,7 @@ jobs:
           PackageUrl: https://github.com/marlocarlo/omp-manager
           License: MIT
           LicenseUrl: https://github.com/marlocarlo/omp-manager/blob/master/LICENSE
-          Copyright: Copyright (c) marlocarlo
+          Copyright: Copyright (c) Godwin Sam Josh
           ShortDescription: A TUI manager for Oh My Posh - browse themes, install fonts, configure shells
           Description: |-
             Oh My Posh Manager is a terminal UI that sets up Oh My Posh from scratch with
