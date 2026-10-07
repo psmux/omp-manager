@@ -19,6 +19,7 @@ jobs:
   build:
     name: Build ${{ matrix.label }}
     runs-on: ${{ matrix.os }}
+    environment: ${{ github.ref_type == 'tag' && 'windows-signing' || '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -83,6 +84,31 @@ jobs:
       - name: Build (non-Windows)
         if: runner.os != 'Windows'
         run: cargo build --release --target ${{ matrix.target }}
+
+      # Parallel legs sign one at a time.
+      - name: Stagger signing across legs
+        if: runner.os == 'Windows' && github.ref_type == 'tag'
+        shell: pwsh
+        run: Start-Sleep -Seconds (35 * ${{ strategy.job-index }})
+
+      # Code sign Windows binaries on release tags.
+      - name: Log in to Certum SimplySign
+        id: certum
+        if: runner.os == 'Windows' && github.ref_type == 'tag'
+        uses: jay0lee/certum-cloud-code-sign@a3324503499c49090869856eeeecfe95fb613d87
+        with:
+          username: ${{ secrets.CERTUM_USERNAME }}
+          totp_secret: ${{ secrets.CERTUM_TOTP_SECRET }}
+          totp_algorithm: ${{ vars.CERTUM_TOTP_ALGORITHM || 'SHA-256' }}
+
+      - name: Sign binary
+        if: steps.certum.outcome == 'success'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $exe = "target/${{ matrix.target }}/release/omp-manager.exe"
+          & "${{ steps.certum.outputs.signtool-path }}" sign /sha1 ${{ steps.certum.outputs.cert-thumbprint }} /tr http://time.certum.pl /td SHA256 /fd SHA256 /d "Oh My Posh Manager" $exe
+          if ($LASTEXITCODE -ne 0) { throw "signtool could not sign $exe" }
 
       - name: Create release package (Windows)
         if: runner.os == 'Windows'
@@ -149,6 +175,24 @@ jobs:
           echo "SHA256: $sha256"
           echo "Archive contents:"; tar tzf "$name.tar.gz"
 
+      - name: Verify signatures
+        if: runner.os == 'Windows' && github.ref_type == 'tag'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $signtool = "${{ steps.certum.outputs.signtool-path }}"
+          if (-not $signtool) { Write-Output "::error::Signing did not run, so nothing is signed"; exit 1 }
+          $zipName = "omp-manager-${{ github.ref_name }}-${{ matrix.artifact }}"
+          $check = Join-Path $env:RUNNER_TEMP "verify-zip"
+          Expand-Archive -Path "$zipName.zip" -DestinationPath $check -Force
+          $bad = 0
+          foreach ($f in @("$check/omp-manager.exe")) {
+            & $signtool verify /pa /q $f
+            if ($LASTEXITCODE -ne 0) { Write-Output "::error::not signed: $f"; $bad = 1 }
+            else { Write-Output "signed: $f" }
+          }
+          if ($bad) { exit 1 }
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -159,6 +203,10 @@ jobs:
             omp-manager-*-${{ matrix.artifact }}.zip.sha512
             omp-manager-*-${{ matrix.artifact }}.tar.gz
             omp-manager-*-${{ matrix.artifact }}.tar.gz.sha256
+
+      - name: Log out of Certum SimplySign
+        if: always() && steps.certum.outcome != 'skipped' && steps.certum.outcome != ''
+        uses: jay0lee/certum-cloud-code-sign/teardown@a3324503499c49090869856eeeecfe95fb613d87
 
   release:
     name: Create GitHub Release
